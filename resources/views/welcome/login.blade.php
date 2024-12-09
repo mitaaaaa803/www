@@ -13,23 +13,23 @@
     <div class="card p-4 shadow-sm" style="width: 24rem;">
         <form method="POST" action="/login" encType="multipart/form-data">
             @csrf <!-- CSRF 防禦 -->
-            <h2 class="text-center mb-4">登入</h2>
+            <h2 class="text-center mb-4">{{trans('auth.login')}}</h2>
             <div class="mb-3">
-                <label for="email" class="form-label">信箱</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="輸入你的信箱..." required>
+                <label for="email" class="form-label">{{trans('auth.mail')}}</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="{{trans('auth.enter_your_email')}}..." required>
             </div>
             <div class="mb-3">
-                <label for="password" class="form-label">密碼</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="輸入你的密碼..." required>
+                <label for="password" class="form-label">{{trans('auth.password')}}</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="{{trans('auth.enter_your_password')}}..."required>
             </div>
             <div class="mb-3 form-check">
                 <input type="checkbox" class="form-check-input" id="rememberMe" name="remember">
-                <label class="form-check-label" for="rememberMe">記住我</label>
+                <label class="form-check-label" for="rememberMe">{{trans('auth.remember_me')}}</label>
             </div>
-            <button type="submit" class="btn btn-primary w-100">登入</button>
+            <button type="submit" class="btn btn-primary w-100">{{trans('auth.login')}}</button>
         </form>
         <div class="text-center mt-3">
-            <p class="mb-0">我還不是會員？<a href="/member/" class="text-primary">立即註冊</a></p>
+            <p class="mb-0">{{trans('auth.not_a_member_yet')}}<a href="/member/" class="text-primary">{{trans('auth.register_now')}}</a></p>
         </div>
     </div>
 </div>

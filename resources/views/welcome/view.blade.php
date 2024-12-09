@@ -19,43 +19,43 @@
 </style>
 
 <div class="container mt-5">
-    <h2 class="mb-4">查看文章</h2>
+    <h2 class="mb-4">{{trans('auth.view_article')}}</h2>
         <div class="mb-3">
-            <label for="msg" class="fw-bold">內容:</label> 
+            <label for="msg" class="fw-bold">{{trans('auth.content')}} :</label> 
             <p class="border p-3 bg-light rounded">{{ $issue->content }}</p>
         </div>
         
         <div class="pepole">
             <div class="mb-3">
-                <label for="name" class="fw-bold pepoleSpace">姓名:</label> {{$issue->users_name}}
+                <label for="name" class="fw-bold pepoleSpace">{{trans('auth.name')}} :</label> {{$issue->users_name}}
             </div>
             <div class="mb-3">
-                <label for="mail" class="fw-bold pepoleSpace">信箱:</label> {{$issue->users_email}}
+                <label for="mail" class="fw-bold pepoleSpace">{{trans('auth.mail')}} :</label> {{$issue->users_email}}
             </div>
         </div>
 
     @if(session()->has('user_id'))    
     <div class="text-end">
-        <a href="/reply/{{ $issue->users_id }}"  class="btn btn-primary">留言回覆</a>
+        <a href="/reply/{{ $issue->users_id }}"  class="btn btn-primary">{{trans('auth.reply')}}</a>
     </div>
     @else
     <div class="text-end">
-        <a href="/reply/{{ $issue->users_id }}"  class="btn btn-primary disabled">留言回覆</a>
+        <a href="/reply/{{ $issue->users_id }}"  class="btn btn-primary disabled">{{trans('auth.reply')}}</a>
     </div> 
     @endif             
 </div>
 
 <div class="container mt-5">
     <!-- 顯示留言 -->
-    <h3>留言列表</h3>    
+    <h3>{{trans('auth.replies')}}</h3>    
         <ul class="list-group">
             @foreach ($replies as $reply)
                 <li class="list-group-item">
                     <p>{{ $reply->users_name }}:</p>
                     <p>{{ $reply->content }}</p>
                     <div class="pepole">
-                        <span class="pepoleSpace">信箱: {{ $reply->users_email }}</span>
-                        <span class="pepoleSpace">新增時間: {{ $reply->created_at }}</span>
+                        <span class="pepoleSpace">{{trans('auth.mail')}} : {{ $reply->users_email }}</span>
+                        <span class="pepoleSpace">{{trans('auth.release_date')}} : {{ $reply->created_at }}</span>
                     </div>   
                 </li>
             @endforeach

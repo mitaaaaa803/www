@@ -2,8 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 
-// 加入WelcomeController
+// 加入 WelcomeController
 use App\Http\Controllers\WelcomeController;
+// 加入 App
+use Illuminate\Support\Facades\App;
+
+use App\Helpers\LangHelper;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -36,8 +41,8 @@ Route::controller(WelcomeController::class)->group(function(){
     Route::post('/new/{id}', 'AddCommentSave');
 
     // 修改文章
-    Route::get('/edit', 'EditComment');
-    Route::post('/edit', 'EditCommentSave'); 
+    Route::get('/edit/{id}', 'EditComment')->name('edit');
+    Route::post('/edit/{id}', 'EditCommentSave'); 
 
     // 刪除文章
     Route::get('/delete/{id}', 'DeleteComment'); 
@@ -50,12 +55,16 @@ Route::controller(WelcomeController::class)->group(function(){
     Route::get('/editMember/{id}', 'EditMemberComment');
     Route::post('/editMember/{id}', 'EditMemberCommentSave'); 
 
-    //登入
+    // 登入
     Route::get('/login', 'showLoginForm')->name('login');
     Route::post('/login', 'Login'); 
 
-    //登出
+    // 登出
     Route::get('/logout', 'logout')->name('logout'); 
+
+    // 切換語言
+    Route::post('/switchLang', 'switchLang')->name('switchLang');
+    
 });
 
 

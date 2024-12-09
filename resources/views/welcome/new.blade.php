@@ -10,26 +10,26 @@
 <div class="container mt-5">
     <form action="/new/{{ $member->users_id }}" method="post" encType="multipart/form-data">
         @csrf
-        <h2 class="mb-4">新增文章</h1>
+        <h2 class="mb-4">{{ trans('auth.new_article') }}</h1>
 
         <div class="mb-3">
-            <label for="name" class="form-label">姓名:</label>
+            <label for="name" class="form-label">{{trans('auth.name')}} :</label>
             <input type="text" class="form-control" id="name" name="name" id="exampleFormControlInput1" value="{{ $member->name }}" required/>
         </div>
         <div class="mb-3">
-            <label for="mail" class="form-label">信箱:</label>
+            <label for="mail" class="form-label">{{trans('auth.mail')}} :</label>
             <input type="email" class="form-control" id="mail" name="email" id="exampleFormControlInput1" value="{{ $member->email }}" required/>
         </div>
         <div class="mb-3">
-            <label for="" class="form-label">主旨:</label>
+            <label for="" class="form-label">{{trans('auth.title')}} :</label>
             <input type="" class="form-control" id="title" name="title" id="exampleFormControlInput1" required/>
         </div>
         <div class="mb-3">
-            <label for="msg" class="form-label">內容:</label>
+            <label for="msg" class="form-label">{{trans('auth.content')}} :</label>
             <textarea id="msg" class="form-control" name="content" id="exampleFormControlInput1" required></textarea>
         </div>
         <div class="text-end">
-            <button type="submit" class="btn btn-primary">送出</button>
+            <button type="submit" class="btn btn-primary">{{trans('auth.send')}}</button>
         </div>
     </form>
 </div>

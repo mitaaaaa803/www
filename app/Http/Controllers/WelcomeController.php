@@ -4,14 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\App;
 
 class WelcomeController extends Controller
 {
     // 文章清單(首頁)
     public function index(Request $req){
 
-        // session_start();  寫在第一行
-        // $session = session('user_id'); 取到session的id的方法
+        // 更改語言
+        $locale = session('locale', 'zh_tw'); // 設session的變數為 $locale
+        // echo $locale;
+        App::setLocale($locale); // 該頁面要切換語言要做 App::setLocale()，將變數塞進去
+
 
         //選擇table
         $issues = \DB::select("select * from guests");
@@ -32,14 +37,18 @@ class WelcomeController extends Controller
         //     return view('welcome.index',['issues' => $issues]);
         // }
 
-
-        return view('welcome.index',['issues' => $issues]);
-        //回傳 (welcome資料夾裡面的index檔,[issues' => $issues])
+        // echo App::getLocale();
+        return view('welcome.index',['issues' => $issues]); //回傳 (welcome資料夾裡面的index檔,[issues' => $issues])
+       
 
     }
 
     //查看該id的文章
     public function ViewComment(Request $req, $id){   
+
+        $locale = session('locale', 'zh_tw');
+        // echo $locale;
+        App::setLocale($locale); 
 
         $issue = DB::table('guests')->where('users_id', $id)->first(); //指定guests這個table->查詢users_id等於$id->取第一筆資料 
         $replies = DB::table('reply')->where('guest_id', $id)->get();
@@ -83,6 +92,9 @@ class WelcomeController extends Controller
         /* 說明 : session已經是該user_id，所以在路由不需要再帶入 {id} */
 
         session_start();
+
+        $locale = session('locale', 'zh_tw');
+        App::setLocale($locale); 
 
         $u_id = session('user_id');
 
@@ -140,6 +152,9 @@ class WelcomeController extends Controller
     //修改文章(1. show該筆資料)
     public function EditComment(Request $req, $id){
 
+        $locale = session('locale', 'zh_tw');
+        App::setLocale($locale); 
+
         $issue = DB::table('guests')->where('users_id', $id)->first(); //指定guests這個table->查詢users_id等於$id->取第一筆資料 
 
         
@@ -174,6 +189,10 @@ class WelcomeController extends Controller
 
     //會員註冊
     public function MemberComment(Request $req){
+
+        $locale = session('locale', 'zh_tw');
+        App::setLocale($locale); 
+        
         return view('welcome.member',[]);
     }
 
@@ -214,6 +233,10 @@ class WelcomeController extends Controller
 
     //修改會員(1. show該筆會員)
     public function EditMemberComment(Request $req, $id){
+
+        $locale = session('locale', 'zh_tw'); 
+        // echo $locale;
+        App::setLocale($locale);
 
         $member = DB::table('members')->where('users_id', $id)->first();
 
@@ -257,6 +280,11 @@ class WelcomeController extends Controller
     //1.登入頁面顯示
     public function showLoginForm(Request $req){
 
+        // 切換語言
+        $locale = session('locale', 'zh_tw'); 
+        // echo $locale;
+        App::setLocale($locale);
+
         return view('welcome.login',[]);
     }
 
@@ -289,9 +317,40 @@ class WelcomeController extends Controller
     }
 
      //登出頁面顯示
-     public function logout(Request $req){
+    public function logout(Request $req){
         //清除資料
-        session()->flush(); 
+        session()->flush(); //可以選取要清掉的部分，不一定要全部清掉
+
+        return redirect('/');
+    }
+
+    // 語言切換
+    public function switchLang(Request $request)
+    {
+        session_start();
+
+        $lang = $request->input('lang');
+        $supportedLanguages = ['en', 'zh_tw']; 
+
+        if (in_array($lang, $supportedLanguages)) {
+
+            Session::put('locale', $lang);
+            App::setLocale($lang);
+        }
+
+        // dd(session('locale'));
+        // echo App::getLocale();
+        // return redirect()->back();
+
+        // $changeLang = [
+        //     'guestbook' => trans('auth.guestbook'),
+        //     'all_articles' => trans('auth.all_articles'),
+        //     'new_article' => trans('auth.new_article'),
+        //     'edit_member' => trans('auth.edit_member'),
+        // ];
+
+        // dd($changeLang);
+
         return redirect('/');
     }
 }

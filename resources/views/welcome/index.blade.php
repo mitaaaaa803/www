@@ -22,25 +22,36 @@
 
     <header class="bg-light py-3 mb-4">
         <div class="container d-flex justify-content-between align-items-center">
-            <h2>全部文章</h2>
+            <h2>{{ trans('auth.all_articles') }}</h2>
             <div>
                 @if(session()->has('user_id'))
-                <a href="/new/" class="btn btn-primary me-2">新增文章</a>
+                <a href="/new/" class="btn btn-primary me-2">{{ trans('auth.new_article') }}</a>
                 @else
-                <a href="/new/" class="btn btn-secondary disabled">新增文章</a>
+                <a href="/new/" class="btn btn-secondary disabled">{{ trans('auth.new_article') }}</a>
                 @endif
 
                 @if(session()->has('user_id'))
-                <a href="/editMember/{{ session('user_id') }}" class="btn btn-primary me-2">編輯會員</a>
+                <a href="/editMember/{{ session('user_id') }}" class="btn btn-primary me-2">{{ trans('auth.edit_member') }}</a>
                 @else
-                <a href="/editMember/{{ session('user_id') }}" class="btn btn-secondary disabled">編輯會員</a>
+                <a href="/editMember/{{ session('user_id') }}" class="btn btn-secondary disabled">{{ trans('auth.edit_member') }}</a>
                 @endif
 
                 @if(session()->has('user_id'))
-                <a href="/logout/" class="btn btn-success" onclick="return confirmLogout()">登出</a>
+                <a href="/logout/" class="btn btn-success" onclick="return confirmLogout()">{{ trans('auth.logout') }}</a>
                 @else
-                <a href="/login/" class="btn btn-success">登入</a>
+                <a href="/login/" class="btn btn-success">{{trans('auth.login')}}</a>
                 @endif
+
+                <!-- 切換語言 -->
+                <form action="{{ route('switchLang') }}" method="POST" class="d-inline">
+                @csrf
+                    <select name="lang" onchange="this.form.submit()" class="form-select d-inline-block w-auto">
+                        <option value="zh_tw" {{ session('locale') === 'zh_tw' ? 'selected' : '' }}>繁體中文</option>
+                        <option value="en" {{ session('locale') === 'en' ? 'selected' : '' }}>English</option>
+                    </select>
+                </form>
+
+            
             </div>
         </div>
     </header>
@@ -49,9 +60,9 @@
         <table class="table table-striped table-hover">
             <thead class="table-dark">
                 <tr>
-                    <td>姓名</td>
-                    <td>主旨</td>
-                    <td>上次更新</td>
+                    <td>{{ trans('auth.name') }}</td>
+                    <td>{{ trans('auth.title') }}</td>
+                    <td>{{ trans('auth.last_updated') }}</td>
                     <td></td>
                 </tr>
             </thead>
@@ -63,37 +74,41 @@
                     <td>{{$issue->title}}</td>          <!-- 我只需顯示的欄位只有 users_name、title、updated_at-->
                     <td>{{$issue->updated_at}}</td>
                     <td>
-                        <a href="/view/{{ $issue->users_id }}" class="btn btn-info btn-sm me-1">查看</a>
+                        <a href="/view/{{ $issue->users_id }}" class="btn btn-info btn-sm me-1">{{ trans('auth.view') }}</a>
                         
                         @if(session('user_id') == $issue->users_id)                       
-                        <a href="/edit/{{ $issue->users_id }}"  class="btn btn-info btn-sm me-1">編輯</a>   <!-- 跳轉到 "/edit/頁面"，根據{{ $issue->users_id }}把資料顯示出來 -->
+                        <a href="/edit/{{ $issue->users_id }}"  class="btn btn-info btn-sm me-1">{{ trans('auth.edit') }}</a>   <!-- 跳轉到 "/edit/頁面"，根據{{ $issue->users_id }}把資料顯示出來 -->
                         @else
-                        <a href="/edit/{{ $issue->users_id }}"  class="btn btn-info btn-sm me-1 btn-secondary disabled">編輯</a>
+                        <a href="/edit/{{ $issue->users_id }}"  class="btn btn-info btn-sm me-1 btn-secondary disabled">{{ trans('auth.edit') }}</a>
                         @endif
 
                         @if(session('user_id') == $issue->users_id)
-                        <a href="/delete/{{ $issue->users_id }}" class="btn btn-danger btn-sm" onclick="return confirmDelete()">刪除</a>     
+                        <a href="/delete/{{ $issue->users_id }}" class="btn btn-danger btn-sm" onclick="return confirmDelete()">{{ trans('auth.delete') }}</a>     
                         @else
-                        <a href="/delete/{{ $issue->users_id }}" class="btn btn-danger btn-sm btn-secondary disabled">刪除</a>     
+                        <a href="/delete/{{ $issue->users_id }}" class="btn btn-danger btn-sm btn-secondary disabled">{{ trans('auth.delete') }}</a>     
                         @endif
                     </td>
                 </tr>
             @endforeach 
+
+
         </table>  
     </div>
 
 
     <script>
         function confirmLogout(){
-            return confirm("確定要登出嗎?");
+
+            const logoutMessage = @json(trans('auth.logout_confirm')); // 轉換成json格式
+            
+            return confirm(logoutMessage);
         }
 
         function confirmDelete(){
-            return confirm("確定要刪除嗎?");
 
-        }
+            const deleteMessage = @json(trans('auth.delete_confirm'));
 
-        function Permissions(){
+            return confirm(deleteMessage);
 
         }
     </script>

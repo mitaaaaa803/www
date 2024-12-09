@@ -11,38 +11,38 @@
 </head>
 
 <div class="container mt-5">
-     <h2 class="mb-4">編輯文章</h2>
+     <h2 class="mb-4">{{trans('auth.update_article')}}</h2>
 
     <form method="POST" action="/edit/{{ $issue->users_id }}" enctype="multipart/form-data">
         @csrf <!-- @csrf 為保護機制 -->
 
         <div class="mb-3 disabled">
-            <label for="name" class="form-label">姓名:</label>
+            <label for="name" class="form-label">{{trans('auth.name')}} :</label>
             <input type="text" id="name" name="user_name" class="form-control" value="{{$issue->users_name}}" required/>
         </div>
 
         <div class="mb-3">
-            <label for="mail" class="form-label">信箱:</label>
+            <label for="mail" class="form-label">{{trans('auth.mail')}} :</label>
             <input type="email" id="mail" name="user_email" class="form-control" value="{{$issue->users_email}}" required/>
         </div>
 
         <div class="mb-3">
-            <label for="title" class="form-label">主旨:</label>
+            <label for="title" class="form-label">{{trans('auth.title')}} :</label>
             <input type="" id="title" name="title" class="form-control" value="{{$issue->title}}" required/>
         </div>
 
         <div class="mb-3">
-            <label for="msg" class="form-label">內容:</label>
+            <label for="msg" class="form-label">{{trans('auth.content')}} :</label>
             <textarea id="msg" name="content" class="form-control" required>{{ $issue->content }}</textarea>
         </div>
         
         @if(session('user_id') == $issue->users_id)
         <div class="text-end">
-            <button type="submit" class="btn btn-primary">更新</button>  
+            <button type="submit" class="btn btn-primary">{{trans('auth.update')}}</button>  
         </div>
         @else
         <div class="text-end">
-            <button type="submit" class="btn btn-primary disabled">更新</button>  
+            <button type="submit" class="btn btn-primary disabled">{{trans('auth.update')}}</button>  
         </div>
         @endif
 
